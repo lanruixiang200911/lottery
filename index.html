@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>摇号器</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+    <script>
+        function rand(){
+            document.getElementById("list").innerHTML="";
+            document.getElementById("mistake").innerHTML="";
+
+            var names = new Array(
+                "陈晟","陈若曦","何俊谕","金凌玉",
+                "兰瑞翔","李林峰","李翘楚","连昌华",
+                "骆绎臣","孙心怡","陶和景","王雨嘉",
+                "吴晨鑫","张允浩","郑宇豪","朱政元","朱梓萱"
+            );
+
+            for(var i=1;i<=40;i++){
+                setTimeout(()=>{
+                    document.getElementById("randuser").innerHTML=names[Math.floor(Math.random()*17)];
+                },i*60);
+            }
+
+            document.getElementById("twoswitch").innerHTML="\
+            <button class=\"start\" onclick=\"worry()\" style=\"opacity:0.6;\"><span class=\"span\">单次摇号</span></button>\n\
+            <button class=\"start\" onclick=\"worry()\" style=\"opacity:0.6;\"><span class=\"span\">多次摇号</span></button>";
+            
+            setTimeout(()=>{
+                document.getElementById("twoswitch").innerHTML="\
+                <button class=\"start\" onclick=\"rand()\"><span class=\"span\">单次摇号</span></button>\n\
+                <button class=\"start\" onclick=\"rand2()\"><span class=\"span\">多次摇号</span></button>";
+            },40*60);
+        }
+
+        function rand2(){
+            document.getElementById("list").innerHTML="";
+
+            var names = new Array(
+                "陈晟","陈若曦","何俊谕","金凌玉",
+                "兰瑞翔","李林峰","李翘楚","连昌华",
+                "骆绎臣","孙心怡","陶和景","王雨嘉",
+                "吴晨鑫","张允浩","郑宇豪","朱政元","朱梓萱"
+            );
+
+            var times = document.getElementById("times").value;
+            if(isNaN(parseFloat(times))){
+                document.getElementById("mistake").innerHTML="<span class=\"wrong\">请输入一个 2 ~ 10 的整数</span>";
+            }else{
+                var o=Number(times);
+                if(o%1!==0){
+                    document.getElementById("mistake").innerHTML="<span class=\"wrong\">请输入一个 2 ~ 10 的整数</span>";
+                }else if(o<2||o>10){
+                    document.getElementById("mistake").innerHTML="<span class=\"wrong\">请输入一个 2 ~ 10 的整数</span>";
+                }else{
+                    document.getElementById("mistake").innerHTML="";
+
+                    for(var t=1;t<=times;t++){
+                        var out="";
+                        setTimeout(() => {
+                            for(var i=1;i<=39;i++){
+                                setTimeout(()=>{
+                                    var tmp=names[Math.floor(Math.random()*17)];
+                                    document.getElementById("randuser").innerHTML=tmp;
+                                },i*60);
+                            }
+
+                            setTimeout(()=>{
+                                var tmp=names[Math.floor(Math.random()*17)];
+                                document.getElementById("randuser").innerHTML=tmp;
+                                out+="<li>"+tmp+"</li>\n";
+                                document.getElementById("list").innerHTML="<ul>\n"+out+"</ul>";
+                            },40*60);
+
+                        },(t-1)*(40*60+500));
+                    }
+
+                    document.getElementById("twoswitch").innerHTML="\
+                    <button class=\"start\" onclick=\"worry()\" style=\"opacity:0.6;\"><span class=\"span\">单次摇号</span></button>\n\
+                    <button class=\"start\" onclick=\"worry()\" style=\"opacity:0.6;\"><span class=\"span\">多次摇号</span></button>";
+                    
+                    setTimeout(()=>{
+                        document.getElementById("twoswitch").innerHTML="\
+                        <button class=\"start\" onclick=\"rand()\"><span class=\"span\">单次摇号</span></button>\n\
+                        <button class=\"start\" onclick=\"rand2()\"><span class=\"span\">多次摇号</span></button>";
+                    },(40*60+500)*times-500);
+                }
+            }
+        }
+
+        function donate(){
+            window.open("https://lanruixiang.com/donate/");
+        }
+
+        function worry(){
+            var t=document.getElementById("worry").innerHTML;
+            if(t==""){
+                document.getElementById("worry").innerHTML="<span class=\"wrong\">请不要疯狂点击按钮哟~</span>";
+                setTimeout(() => {
+                    document.getElementById("worry").innerHTML="";
+                },1500);
+            }
+        }
+    </script>
+    
+    <style>
+        *{
+            font-family: "San Francisco", "Helvetica Neue", "Noto Sans", "Noto Sans CJK SC", "Noto Sans CJK", "Source Han Sans", "PingFang SC", "Segoe UI", "Microsoft YaHei", sans-serif;
+        }
+        a{
+            color: #3498db;
+            text-decoration: none;
+        }
+        p{
+            margin: 5px 0px;
+        }
+        .information{
+            width: 300px;
+        }
+        .main{
+            margin: 50px auto;
+            height: 600px;
+            width: 430px;
+            padding: 20px;
+            background-color: #eee;
+        }
+        .user {
+            height: 120px;
+            width: 400px;
+            margin: 0px auto;
+            background-color: #fff;
+            border: 3px solid #000;
+            border-radius: 15px;
+        }
+        .name{
+            margin: 35px 0px;
+            font-size: 40px;
+            text-align: center;
+            font-weight: 600;
+        }
+        .start {
+            text-align: center;
+            font-size: 30px;
+            background-color: #c66;
+            border: 3px solid #000;
+            border-radius: 10px;
+            margin: 0px 5px;
+        }
+        .switch{
+            text-align: center;
+            margin: 20px auto;
+        }
+        .span{
+            margin: 10px;
+        }
+        .wrong{
+            font-size: 15px;
+            color: red;
+        }
+        .donate{
+            text-align: center;
+            font-size: 30px;
+            background-color: #ec4;
+            border: 3px solid #000;
+            border-radius: 10px;
+            margin: 10px 5px;
+        }
+    </style>
+</head>
+<body>
+    <div style="display:flex;">
+        <div style="padding: 10px;" class="information">
+            <div>
+                <h3>信息：</h3>
+                <p>作者：<a href="https://github.com/lanruixiang">lanruixiang</a></p>
+                <p>版本：v1.0.0</p>
+                <p>这是目前第一个在 GitHub 上开源的版本</p>
+                <p>项目链接：<a href="https://github.com/lanruixiang200911/lottery">Link</a></p>
+                <p>联系方式：lanruixiang200911@163.com</p>
+                <p>使用 Apache License 2.0</p>
+                <p>转载须注明出处，违者必究</p>
+                <p>© 2023 Lan Ruixiang</p>
+            </div>
+        </div>
+        <div class="main">
+            <div class="user">
+                <p class="name" id="randuser"></p>
+            </div>
+            <div class="switch">
+                <div id="twoswitch">
+                    <button class="start" onclick="rand()"><span class="span">单次摇号</span></button>
+                    <button class="start" onclick="rand2()"><span class="span">多次摇号</span></button>
+                </div>
+                <div>
+                    <button class="donate" onclick="donate()"><span class="span">&emsp;捐助&emsp;</span></button>
+                </div>
+            </div>
+            <div>
+                <p>摇号次数：<input type="text" id="times"><br><span id="mistake"></span></p>
+            </div>
+            <div>
+                <p><span id="worry"></span></p>
+            </div>
+            <div id="list"></div>
+        </div>
+        <div class="information">
+
+        </div>
+    </div>
+</body>
+
+</html>
