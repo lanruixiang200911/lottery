@@ -54,14 +54,15 @@
                 }
             },30*60);
 
-            document.getElementById("twoswitch").innerHTML="\
-            <button class=\"start\" onclick=\"worry()\" style=\"opacity:0.6;\"><span class=\"span\">单次摇号</span></button>\n\
-            <button class=\"start\" onclick=\"worry()\" style=\"opacity:0.6;\"><span class=\"span\">多次摇号</span></button>";
-            
+            document.getElementById("now_start1").setAttribute("onclick","worry()");
+            document.getElementById("now_start1").setAttribute("style","opacity:0.6;");
+            document.getElementById("now_start2").setAttribute("onclick","worry()");
+            document.getElementById("now_start2").setAttribute("style","opacity:0.6;");
             setTimeout(()=>{
-                document.getElementById("twoswitch").innerHTML="\
-                <button class=\"start\" onclick=\"rand()\"><span class=\"span\">单次摇号</span></button>\n\
-                <button class=\"start\" onclick=\"rand2()\"><span class=\"span\">多次摇号</span></button>";
+                document.getElementById("now_start1").setAttribute("onclick","rand()");
+                document.getElementById("now_start1").setAttribute("style","");
+                document.getElementById("now_start2").setAttribute("onclick","rand2()");
+                document.getElementById("now_start2").setAttribute("style","");
             },30*60);
         }
 
@@ -106,14 +107,15 @@
                         },(t-1)*(30*60+500));
                     }
 
-                    document.getElementById("twoswitch").innerHTML="\
-                    <button class=\"start\" onclick=\"worry()\" style=\"opacity:0.6;\"><span class=\"span\">单次摇号</span></button>\n\
-                    <button class=\"start\" onclick=\"worry()\" style=\"opacity:0.6;\"><span class=\"span\">多次摇号</span></button>";
-                    
+                    document.getElementById("now_start1").setAttribute("onclick","worry()");
+                    document.getElementById("now_start1").setAttribute("style","opacity:0.6;");
+                    document.getElementById("now_start2").setAttribute("onclick","worry()");
+                    document.getElementById("now_start2").setAttribute("style","opacity:0.6;");
                     setTimeout(()=>{
-                        document.getElementById("twoswitch").innerHTML="\
-                        <button class=\"start\" onclick=\"rand()\"><span class=\"span\">单次摇号</span></button>\n\
-                        <button class=\"start\" onclick=\"rand2()\"><span class=\"span\">多次摇号</span></button>";
+                        document.getElementById("now_start1").setAttribute("onclick","rand()");
+                        document.getElementById("now_start1").setAttribute("style","");
+                        document.getElementById("now_start2").setAttribute("onclick","rand2()");
+                        document.getElementById("now_start2").setAttribute("style","");
                     },(30*60+500)*times-500);
                 }
             }
@@ -137,7 +139,13 @@
             initout();
             updateRange();
             var t=document.getElementById("ReInit").innerHTML;
-            if(t==""){
+            document.getElementById("button_reinit").setAttribute("onclick","");
+            document.getElementById("button_reinit").setAttribute("style","opacity:0.6;");
+            setTimeout(() => {
+                document.getElementById("button_reinit").setAttribute("onclick","re_init()");
+                document.getElementById("button_reinit").setAttribute("style","");
+            }, 50);
+            if(t == ""){
                 document.getElementById("ReInit").innerHTML=" (已重置) ";
                 setTimeout(() => {
                     document.getElementById("ReInit").innerHTML="";
@@ -283,14 +291,14 @@
             <div>
                 <h3>信息：</h3>
                 <p>作者：<a href="https://github.com/lanruixiang">lanruixiang</a></p>
-                <p>版本：v1.0.2</p>
-                <p>优化 UI 设计并新增摇号范围</p>
+                <p>版本：v1.0.3</p>
+                <p>优化部分代码，修复部分 Bug</p>
                 <p>项目链接：<a href="https://github.com/lanruixiang200911/lottery">Link</a></p>
                 <p>联系方式：lanruixiang200911@163.com</p>
                 <p>该项目网页版：<a href="https://lanruixiang200911.github.io/lottery">lottery</a></p>
                 <p>使用 Apache License 2.0</p>
                 <p>转载须注明出处，违者必究</p>
-                <p>代码量：340 行，12453 字符</p>
+                <p>代码量：346 行，12938 字符</p>
                 <p>© 2023 Lan Ruixiang</p>
             </div>
         </div>
@@ -299,14 +307,12 @@
                 <p class="name" id="randuser"></p>
             </div>
             <div class="switch">
-                <!--! 禁止更改此部分 ---------------------------------------------->
                 <div id="twoswitch">
-                    <button class="start" onclick="rand()"><span class="span">单次摇号</span></button>
-                    <button class="start" onclick="rand2()"><span class="span">多次摇号</span></button>
+                    <button class="start" onclick="rand()" id="now_start1"><span class="span">单次摇号</span></button>
+                    <button class="start" onclick="rand2()" id="now_start2"><span class="span">多次摇号</span></button>
                 </div>
-                <!--! 禁止更改此部分 ---------------------------------------------->
                 <div>
-                    <button class="re_init" onclick="re_init()"><span class="span">重置范围</span></button>
+                    <button class="re_init" onclick="re_init()" id="button_reinit"><span class="span">重置范围</span></button>
                     <button class="donate" onclick="donate()"><span class="span">&emsp;捐助&emsp;</span></button>
                 </div>
             </div>
