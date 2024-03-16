@@ -5,341 +5,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>摇号器</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-
-    <script>
-        Array.prototype.deleteValue = function(value){
-            var i = 0;
-            for(i in this){
-                if(this[i] == value) break;
-            }
-            return this.slice(0, i).concat(this.slice(parseInt(i, 10) + 1));
-        }
-        var names = new Array(
-            "陈晟","陈若曦","何俊谕","金凌玉",
-            "兰瑞翔","李林峰","李翘楚","连昌华",
-            "骆绎臣","孙心怡","陶和景","王雨嘉",
-            "吴晨鑫","张允浩","郑宇豪","朱政元","朱梓萱"
-        );
-        var N = 17;
-        var outnames, outN;
-        function initout() {
-            outnames = names;
-            outN = N;
-        }
-        function updateRange() {
-            var Ran = "";
-            for(var i = 0; i < outN; i++) {
-                Ran += "<li>" + outnames[i] + "</li>\n";
-            }
-            document.getElementById("Range").innerHTML=Ran;
-        }
-        function rand(){
-            document.getElementById("list").innerHTML="";
-            document.getElementById("mistake").innerHTML="";
-
-            for(var i=1;i<=29;i++){
-                setTimeout(()=>{
-                    document.getElementById("randuser").innerHTML=names[Math.floor(Math.random()*N)];
-                },i*60);
-            }
-
-            setTimeout(()=>{
-                var tmp = outnames[Math.floor(Math.random()*outN)];
-                document.getElementById("randuser").innerHTML = tmp;
-                outnames = outnames.deleteValue(tmp);
-                outN--;
-                updateRange();
-                if(outN == 0) {
-                    re_init_by_empty();
-                }
-            },30*60);
-
-            document.getElementById("now_start1").setAttribute("onclick","worry()");
-            document.getElementById("now_start1").setAttribute("style","opacity:0.6;");
-            document.getElementById("now_start2").setAttribute("onclick","worry()");
-            document.getElementById("now_start2").setAttribute("style","opacity:0.6;");
-            setTimeout(()=>{
-                document.getElementById("now_start1").setAttribute("onclick","rand()");
-                document.getElementById("now_start1").setAttribute("style","");
-                document.getElementById("now_start2").setAttribute("onclick","rand2()");
-                document.getElementById("now_start2").setAttribute("style","");
-            },30*60);
-        }
-
-        function rand2(){
-            document.getElementById("list").innerHTML="";
-
-            var times = document.getElementById("times").value;
-            if(isNaN(parseFloat(times))){
-                document.getElementById("mistake").innerHTML="<span class=\"wrong\">请输入一个 2 ~ 10 的整数</span>";
-            }else{
-                var o=Number(times);
-                if(o%1!==0){
-                    document.getElementById("mistake").innerHTML="<span class=\"wrong\">请输入一个 2 ~ 10 的整数</span>";
-                }else if(o<2||o>10){
-                    document.getElementById("mistake").innerHTML="<span class=\"wrong\">请输入一个 2 ~ 10 的整数</span>";
-                }else{
-                    document.getElementById("mistake").innerHTML="";
-
-                    for(var t=1;t<=times;t++){
-                        var out="";
-                        setTimeout(() => {
-                            for(var i=1;i<=29;i++){
-                                setTimeout(()=>{
-                                    var tmp=names[Math.floor(Math.random()*N)];
-                                    document.getElementById("randuser").innerHTML=tmp;
-                                },i*60);
-                            }
-
-                            setTimeout(()=>{
-                                var tmp=outnames[Math.floor(Math.random()*outN)];
-                                document.getElementById("randuser").innerHTML=tmp;
-                                out+="<li>"+tmp+"</li>\n";
-                                document.getElementById("list").innerHTML="<ul>\n"+out+"</ul>";
-                                outnames = outnames.deleteValue(tmp);
-                                outN--;
-                                updateRange();
-                                if(outN == 0) {
-                                    re_init_by_empty();
-                                }
-                            },30*60);
-
-                        },(t-1)*(30*60+500));
-                    }
-
-                    document.getElementById("now_start1").setAttribute("onclick","worry()");
-                    document.getElementById("now_start1").setAttribute("style","opacity:0.6;");
-                    document.getElementById("now_start2").setAttribute("onclick","worry()");
-                    document.getElementById("now_start2").setAttribute("style","opacity:0.6;");
-                    setTimeout(()=>{
-                        document.getElementById("now_start1").setAttribute("onclick","rand()");
-                        document.getElementById("now_start1").setAttribute("style","");
-                        document.getElementById("now_start2").setAttribute("onclick","rand2()");
-                        document.getElementById("now_start2").setAttribute("style","");
-                    },(30*60+500)*times-500);
-                }
-            }
-        }
-
-        function donate(){
-            window.open("https://lanruixiang.com/donate/");
-        }
-
-        function worry(){
-            var t=document.getElementById("worry").innerHTML;
-            if(t==""){
-                document.getElementById("worry").innerHTML="<span class=\"wrong\">请不要疯狂点击按钮哟~</span>";
-                setTimeout(() => {
-                    document.getElementById("worry").innerHTML="";
-                },1500);
-            }
-        }
-
-        function re_init() {
-            initout();
-            updateRange();
-            var t=document.getElementById("ReInit").innerHTML;
-            document.getElementById("button_reinit").setAttribute("onclick","");
-            document.getElementById("button_reinit").setAttribute("style","opacity:0.6;");
-            setTimeout(() => {
-                document.getElementById("button_reinit").setAttribute("onclick","re_init()");
-                document.getElementById("button_reinit").setAttribute("style","");
-            }, 50);
-            if(t == ""){
-                document.getElementById("ReInit").innerHTML=" (已重置) ";
-                setTimeout(() => {
-                    document.getElementById("ReInit").innerHTML="";
-                }, 2000);
-            }
-        }
-
-        function re_init_by_empty() {
-            initout();
-            updateRange();
-            document.getElementById("ReInit").innerHTML=" (已自动重置) ";
-            setTimeout(() => {
-                document.getElementById("ReInit").innerHTML="";
-            }, 2000);
-        }
-
-        
-    </script>
-    
-    <style>
-        *{
-            font-family: "San Francisco", "Helvetica Neue", "Noto Sans", "Noto Sans CJK SC", "Noto Sans CJK", "Source Han Sans", "PingFang SC", "Segoe UI", "Microsoft YaHei", sans-serif;
-        }
-        body{
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            background: linear-gradient(
-                200deg,#7778FE,#7778FE,#7778FE,#F5CEFF,#F5CEFF,#F5CEFF
-            );
-        }
-        a{
-            color: #3498db;
-            text-decoration: none;
-        }
-        p{
-            margin: 5px 0px;
-        }
-        .information1{
-            width: 300px;
-        }
-        .information2{
-            width: 300px;
-        }
-        .inf{
-            border-radius: 10px;
-            padding: 15px 25px 25px 25px;
-            background-color: #fff;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
-        }
-        .inf1{
-            height: 330px;
-            margin: 40px 0px 0px 30px;
-        }
-        .inf2{
-            height: 470px;
-            margin: 40px 30px 0px 0px;
-        }
-
-        .main{
-            margin: 40px auto;
-            height: 600px;
-            width: 430px;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
-        }
-        .user {
-            height: 110px;
-            width: 390px;
-            margin: 10px auto 30px auto;
-            padding: 5px;
-            background-color: #eee;
-            border-radius: 15px;
-        }
-        .name{
-            margin: 30px 0px;
-            font-size: 40px;
-            text-align: center;
-            font-weight: 400;
-        }
-        .start{
-            text-align: center;
-            background-color: #fcd;
-            font-size: 27px;
-            border: none;
-            border-radius: 10px;
-            margin: 0px 10px;
-            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
-        }
-        .donate{
-            text-align: center;
-            background-color: #fd5;
-            font-size: 27px;
-            border: none;
-            border-radius: 10px;
-            margin: 15px 10px 0px 10px;
-            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
-        }
-        .re_init{
-            text-align: center;
-            background-color: #aaf;
-            font-size: 27px;
-            border: none;
-            border-radius: 10px;
-            margin: 15px 10px 0px 10px;
-            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
-        }
-        .switch{
-            text-align: center;
-            margin: 20px auto;
-        }
-        .span{
-            display: flex;
-            margin: 5px 16px 5px 16px;
-        }
-        .wrong{
-            font-size: 15px;
-            color: red;
-        }
-        .input{
-            margin: 0px 0px 0px 5px;
-            border: none;
-            outline: medium;
-            border-bottom: 1px solid #aaa; 
-        }
-        .Tips{
-            position: absolute;
-            bottom: 0;
-            margin: 0px 0px 75px 17px;
-        }
-        .tip_of_Range{
-            position: absolute;
-            bottom: 0;
-            margin: 0px 60px 207px 0px;
-        }
-    </style>
+    <link rel="stylesheet" href="./assets/css.css">
+    <link rel="stylesheet" href="./assets/all.css">
+    <script src = "./assets/javascript.js"></script>
+    <script src = "./assets/debug.js"></script>
 </head>
 <body>
-    <div style="display:flex;">
-        <div class="information1 inf inf1">
-            <div>
-                <h3>信息：</h3>
-                <p>作者：<a href="https://github.com/lanruixiang">lanruixiang</a></p>
-                <p>版本：v1.0.3</p>
-                <p>优化部分代码，修复部分 Bug</p>
-                <p>项目链接：<a href="https://github.com/lanruixiang200911/lottery">Link</a></p>
-                <p>联系方式：lanruixiang200911@163.com</p>
-                <p>该项目网页版：<a href="https://lanruixiang200911.github.io/lottery">lottery</a></p>
-                <p>使用 Apache License 2.0</p>
-                <p>转载须注明出处，违者必究</p>
-                <p>代码量：346 行，12938 字符</p>
-                <p>© 2023 Lan Ruixiang</p>
+    <div id = "mainwindow" style = "display: none">
+        <div style="display:flex;">
+            <div class="information1 inf inf1">
+                <div>
+                    <h3>信息：</h3>
+                    <p>作者：<a href="https://github.com/lanruixiang">lanruixiang</a></p>
+                    <p>版本：v1.1.0</p>
+                    <p>添加了窗口大小限制，修改了捐助页面</p>
+                    <p>项目链接：<a href="https://github.com/lanruixiang200911/lottery">Link</a></p>
+                    <p>联系方式：lanruixiang200911@163.com</p>
+                    <p>该项目网页版：<a href="https://lanruixiang200911.github.io/lottery">lottery</a></p>
+                    <p>使用 Apache License 2.0</p>
+                    <p>转载须注明出处，违者必究</p>
+                    <p>从该版本开始不再使用单文件代码</p>
+                    <p>© 2023 Lan Ruixiang</p>
+                </div>
             </div>
-        </div>
-        <div class="main">
-            <div class="user">
-                <p class="name" id="randuser"></p>
-            </div>
-            <div class="switch">
-                <div id="twoswitch">
-                    <button class="start" onclick="rand()" id="now_start1"><span class="span">单次摇号</span></button>
-                    <button class="start" onclick="rand2()" id="now_start2"><span class="span">多次摇号</span></button>
+            <div class="main">
+                <div class="user">
+                    <p class="name" id="randuser"></p>
+                </div>
+                <div class="switch">
+                    <div id="twoswitch">
+                        <button class="start" onclick="rand()" id="now_start1"><span class="span">单次摇号</span></button>
+                        <button class="start" onclick="rand2()" id="now_start2"><span class="span">多次摇号</span></button>
+                    </div>
+                    <div>
+                        <button class="re_init" onclick="re_init()" id="button_reinit"><span class="span">重置范围</span></button>
+                        <button class="donate" onclick="donate()"><span class="span">&emsp;捐助&emsp;</span></button>
+                    </div>
                 </div>
                 <div>
-                    <button class="re_init" onclick="re_init()" id="button_reinit"><span class="span">重置范围</span></button>
-                    <button class="donate" onclick="donate()"><span class="span">&emsp;捐助&emsp;</span></button>
+                    <p style="margin: 0px 0px 0px 20px;">摇号次数：<input type="text" id="times" class="input"></p>
+                </div>
+                <div style="margin: 3px 0px 0px 20px;">
+                    <p><span id="mistake"></span></p>
+                    <p><span id="worry"></span></p>
+                </div>
+                <div id="list"></div>
+                <div class="Tips">
+                    <p style="color: #666; font-weight: 500;">Tip: 摇号按钮只需点击一次，摇号过程 1.8 秒自动停止</p>
                 </div>
             </div>
-            <div>
-                <p style="margin: 0px 0px 0px 20px;">摇号次数：<input type="text" id="times" class="input"></p>
-            </div>
-            <div style="margin: 3px 0px 0px 20px;">
-                <p><span id="mistake"></span></p>
-                <p><span id="worry"></span></p>
-            </div>
-            <div id="list"></div>
-            <div class="Tips">
-                <p style="color: #666; font-weight: 500;">Tip: 摇号按钮只需点击一次，摇号过程 1.8 秒自动停止</p>
+            <div class="information2 inf inf2">
+                <p>当前摇号范围：<span id="ReInit" style="color: red;"></span></p>
+                <ul id="Range">
+                </ul>
+                <div class="tip_of_Range">
+                    <p style="color: #666;">说明：摇号过后，自动将被摇号者移出摇号范围，点击 “重置范围” 即可恢复</p>
+                </div>
             </div>
         </div>
-        <div class="information2 inf inf2">
-            <p>当前摇号范围：<span id="ReInit" style="color: red;"></span></p>
-            <ul id="Range">
-            </ul>
-            <div class="tip_of_Range">
-                <p style="color: #666;">说明：摇号过后，自动将被摇号者移出摇号范围，点击 “重置范围” 即可恢复</p>
-            </div>
+        <script>
+            initout();
+            updateRange();
+        </script>
+    </div>
+
+    <div id = "window_sz" style = "display: none">
+        <div class = "window_sz_tip">
+            <p class = "window_sz_word">由于一些特殊的原因，请全屏使用以获得最佳体验（窗口大小不低于 1344px * 724px）</p>
+            <p id = "tip_of_size"></p>
         </div>
     </div>
+    
     <script>
-        initout();
-        updateRange();
+        check();
     </script>
 </body>
 

@@ -1,0 +1,18 @@
+*{
+    font-family: "San Francisco", "Helvetica Neue", "Noto Sans", "Noto Sans CJK SC", "Noto Sans CJK", "Source Han Sans", "PingFang SC", "Segoe UI", "Microsoft YaHei", sans-serif;
+}
+body{
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background: linear-gradient(
+        200deg,#7778FE,#7778FE,#7778FE,#F5CEFF,#F5CEFF,#F5CEFF
+    );
+}
+a{
+    color: #3498db;
+    text-decoration: none;
+}
+p{
+    margin: 5px 0px;
+}
